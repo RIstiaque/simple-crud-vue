@@ -17,9 +17,13 @@
                 <label for="email">Email</label>
                 <input 
                     v-model="email" 
-                    type="text" 
-                    class="form-control"
+                    type="email"
+                    :class="['form-control', emailState === 'valid' ? 'is-valid' : emailState === 'invalid' ? 'is-invalid' : '']"
+                    @input="validateEmail()"
                 >
+                <div class="invalid-feedback">
+                    Enter valid email
+                </div>
             </div>
             <div class="form-group">
                 <button 
@@ -36,15 +40,30 @@
 export default {
     data:()=>({
         name:null,
-        email:null
+        email:null,
+        emailState: null
     }),
     methods:{
+        validateEmail() {
+            if (
+                this.email &&
+                this.email.trim().length > 0 &&
+                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+                    this.email
+                )
+            ) {
+                this.emailState = 'valid'
+            } else {
+                this.emailState = 'invalid'
+            }
+        },
         storeUser(){
+            this.validateEmail()
             const user = {
                 name: this.name,
                 email: this.email
             }
-            if(user.name != null && user.email != null){
+            if(user.name != null && this.emailState === 'valid'){
                 this.$emit('userStored', user)
                 this.$emit('addClosed', false)
                 this.name=""
