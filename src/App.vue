@@ -1,28 +1,48 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-8 p-5">
+          
+          <app-users 
+            @addOpened="openAdd($event)" 
+            :userNew="userNew"
+          >
+          </app-users>
+          
+          <app-add-user 
+            v-if="addIsOpen" 
+            @userStored="addUser($event)" 
+            @addClosed="openAdd($event)" 
+          >
+          </app-add-user>
+
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import Users from './components/Users'
+import AddUser from './components/UserAdd'
 export default {
   name: 'app',
+  data:()=>({
+    addIsOpen:false,
+    userNew:null
+  }),
   components: {
-    HelloWorld
+    appUsers: Users,
+    appAddUser : AddUser
+  },
+  methods:{
+    openAdd(val){
+      this.addIsOpen = val
+    },
+    addUser(user){
+      this.userNew = user
+    }
   }
 }
 </script>
-
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
