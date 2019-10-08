@@ -64,12 +64,14 @@ export default {
                 email: this.email
             }
             if(user.name != null && this.emailState === 'valid'){
+                this.$emit("alert", {message: "", show: false});
                 this.$emit('userStored', user)
                 this.$emit('addClosed', false)
                 this.name=""
                 this.email=""
             }else{
-                alert("Name & Email is required!")
+                let errorMessage = "Name & Email is required!";
+                this.$emit('alert', {message: errorMessage, show: true});
             }
         }
     }
