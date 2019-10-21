@@ -55,7 +55,7 @@ export default {
         deleteUser(index){
             if (confirm(`Do you want to delete ${this.users[index]['name']}?`)){
                 this.users.splice(index,1)
-                alert("Succes Deleted!")
+                alert("Success Deleted!")
             }
         },
         openAddUser(){
